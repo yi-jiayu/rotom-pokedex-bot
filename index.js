@@ -49,7 +49,7 @@ exports.handler = function (req, res) {
             reply.parse_mode = 'Markdown';
         }
 
-        return res.send(reply);
+        return res.json(reply);
     } else if (update.hasOwnProperty('inline_query')) { // update is an inline query
         const inline_query = update.inline_query;
         const id_or_name = inline_query.query.split(' ', 1)[0].substring(0, 20);
@@ -89,7 +89,7 @@ exports.handler = function (req, res) {
             results: JSON.stringify(results),
         };
 
-        return res.send(reply);
+        return res.json(reply);
     }
 
     // catchall
