@@ -1,0 +1,19 @@
+{
+  "name": "rotom-pokedex-bot",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yi-jiayu/rotom-pokedex-bot.git"
+  },
+  "author": "Jiayu Yi <yi-jiayu@users.noreply.github.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yi-jiayu/rotom-pokedex-bot/issues"
+  },
+  "homepage": "https://github.com/yi-jiayu/rotom-pokedex-bot#readme"
+}
