@@ -9,9 +9,7 @@ const get_pokemon = id_or_name => pokemon.find(p => match(p, id_or_name));
 // find all matching pokemon
 function* find_pokemon(id_or_name) {
     for (const p of pokemon) {
-        if (match(p, id_or_name)) {
-            yield p;
-        }
+        if (match(p, id_or_name)) yield p;
     }
 }
 
@@ -57,9 +55,7 @@ exports.handler = function (req, res) {
         const results = [];
         for (const p of find_pokemon(id_or_name)) {
             // skip duplicates
-            if (results.find(r => r.id === p.id)) {
-                continue;
-            }
+            if (results.find(r => r.id === p.id)) continue;
 
             const result = {
                 type: 'article',
@@ -74,14 +70,13 @@ exports.handler = function (req, res) {
             };
 
             results.push(result);
-            if (results.length === 50) {
-                break;
-            }
+
+            // we can only send a max of 50 results at once
+            if (results.length === 50) break;
         }
 
-        if (results.length === 0) {
-            return res.sendStatus(200);
-        }
+        // don't send anything if there are no matches
+        if (results.length === 0) return res.sendStatus(200);
 
         const reply = {
             method: 'answerInlineQuery',
