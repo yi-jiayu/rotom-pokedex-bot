@@ -1,3 +1,5 @@
+'use strict';
+
 const pokemon = require('./pokemon.min.json');
 
 // check if id_or_name matches a pokemon's id or name
