@@ -16,12 +16,18 @@ function* find_pokemon(id_or_name) {
 // capitalise a word
 const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);
 
+// converts a height in inches to feet and inches
+const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;
+
 // returns a pokemon's type as a single word, eg. 'Grass/Poison'
 const format_type = pokemon => pokemon.type.map(capitalise).join('/');
 
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
-${format_type(pokemon)}
+Type: ${format_type(pokemon)}
+Abilities: ${pokemon.abilities.join(', ')}
+Height: ${format_height(pokemon.height)}
+Weight: ${pokemon.weight} lbs
 [Image](${pokemon.ThumbnailImage})`;
 
 // incoming webhook handler
