@@ -15,14 +15,9 @@ function* find_pokemon(id_or_name) {
     }
 }
 
-// capitalise a word
-const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);
-
-// converts a height in inches to feet and inches
-const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;
-
-// returns a pokemon's type as a single word, eg. 'Grass/Poison'
-const format_type = pokemon => pokemon.type.map(capitalise).join('/');
+const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);        // capitalise a word
+const format_type = pokemon => pokemon.type.map(capitalise).join('/');          // join multiple types into one word
+const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
 
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
@@ -35,7 +30,7 @@ Weight: ${pokemon.weight} lbs
 // incoming webhook handler
 exports.handler = function (req, res) {
     const update = req.body;
-    console.log(JSON.stringify(update));
+    console.log(JSON.stringify(update)); // log incoming updates for debugging
 
     // update is a text message
     if (update.hasOwnProperty('message') && update.message.hasOwnProperty('text')) {
@@ -43,6 +38,7 @@ exports.handler = function (req, res) {
         const id_or_name = message.text.split(' ', 1)[0].substring(0, 20);
         const pokemon = get_pokemon(id_or_name);
 
+        // reply with the sendMessage method
         const reply = {
             method: 'sendMessage',
             chat_id: message.chat.id,
@@ -60,6 +56,7 @@ exports.handler = function (req, res) {
         const inline_query = update.inline_query;
         const id_or_name = inline_query.query.split(' ', 1)[0].substring(0, 20);
 
+        // populate an array of inline query results
         const results = [];
         for (const p of find_pokemon(id_or_name)) {
             // skip duplicates
@@ -86,6 +83,7 @@ exports.handler = function (req, res) {
         // don't send anything if there are no matches
         if (results.length === 0) return res.sendStatus(200);
 
+        // reply with the answerInlineQueryMethod
         const reply = {
             method: 'answerInlineQuery',
             inline_query_id: inline_query.id,
