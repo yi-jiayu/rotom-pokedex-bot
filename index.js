@@ -3,7 +3,7 @@
 const pokemon = require('./pokemon.min.json');
 
 // check if id_or_name matches a pokemon's id or name
-const match = (pokemon, id_or_name) => pokemon.id === Number(id_or_name) || pokemon.slug.includes(id_or_name.toLowerCase());
+const match = (pokemon, id_or_name) => pokemon.id == id_or_name || pokemon.slug.includes(id_or_name.toLowerCase());
 
 // find the first matching pokemon
 const get_pokemon = id_or_name => pokemon.find(p => match(p, id_or_name));
