@@ -25,7 +25,7 @@ Type: ${format_type(pokemon)}
 Abilities: ${pokemon.abilities.join(', ')}
 Height: ${format_height(pokemon.height)}
 Weight: ${pokemon.weight} lbs
-[Image](${pokemon.ThumbnailImage})`;
+[Image](${pokemon.ThumbnailImage.replace('detail', 'full')})`; // higher res image
 
 // incoming webhook handler
 exports.handler = function (req, res) {
