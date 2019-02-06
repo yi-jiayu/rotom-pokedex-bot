@@ -1,6 +1,7 @@
 'use strict';
 
 const pokemon = require('./pokemon.min.json');
+const types = require('./typeStatistics.json');
 
 // check if id_or_name matches a pokemon's id or name
 const match = (pokemon, id_or_name) => pokemon.id == id_or_name || pokemon.slug.includes(id_or_name.toLowerCase());
@@ -18,10 +19,15 @@ function* find_pokemon(id_or_name) {
 const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);        // capitalise a word
 const format_type = pokemon => pokemon.type.map(capitalise).join('/');          // join multiple types into one word
 const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
+const format_battle_stats = arr => arr ? arr.map(capitalise).join('/') : "nil"  // display battle stats else display nil
 
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
 Type: ${format_type(pokemon)}
+Strong Against: ${format_battle_stats(types[pokemon.type]["strong"])}
+Weak Against: ${format_battle_stats(types[pokemon.type]["weak"])}
+Resistant towards: ${format_battle_stats(types[pokemon.type]["resistant"])}
+No effect on: ${format_battle_stats(types[pokemon.type]["no effect"])}
 Abilities: ${pokemon.abilities.join(', ')}
 Height: ${format_height(pokemon.height)}
 Weight: ${pokemon.weight} lbs
