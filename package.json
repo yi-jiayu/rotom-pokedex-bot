@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/yi-jiayu/rotom-pokedex-bot/issues"
   },
-  "homepage": "https://github.com/yi-jiayu/rotom-pokedex-bot#readme"
+  "homepage": "https://github.com/yi-jiayu/rotom-pokedex-bot#readme",
+  "devDependencies": {
+    "jest": "^24.1.0"
+  }
 }
