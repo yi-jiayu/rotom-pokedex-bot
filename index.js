@@ -20,14 +20,24 @@ const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);        
 const format_type = pokemon => pokemon.type.map(capitalise).join('/');          // join multiple types into one word
 const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
 
+const sort_object_by_value = (obj) => {
+    return Object
+            .keys(obj)
+            .sort((a, b) => obj[b]-obj[a])
+            .reduce((_sortedObj, key) => ({
+            ..._sortedObj, 
+            [key]: obj[key]
+            }), {})
+}
 const format_type_advantage = (obj) => { 
     let str = ""
     let zeroStr = ""
-    Object.keys(obj).map(item => {
-        if (obj[item]===0){
+    const sorted_obj = sort_object_by_value(obj)
+    Object.keys(sorted_obj).map(item => {
+        if (sorted_obj[item]===0){
             zeroStr += `${capitalise(item)}/`
-        } else if (obj[item]!==1) {
-            str += `${capitalise(item)}(${obj[item]}x)/`
+        } else if (sorted_obj[item]!==1) {
+            str += `${capitalise(item)}(${sorted_obj[item]}x)/`
         }
     })
     return [str.substring(0, str.length-1), zeroStr.substring(0, zeroStr.length-1)]
