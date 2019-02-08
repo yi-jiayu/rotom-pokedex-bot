@@ -19,15 +19,48 @@ function* find_pokemon(id_or_name) {
 const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);        // capitalise a word
 const format_type = pokemon => pokemon.type.map(capitalise).join('/');          // join multiple types into one word
 const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
-const format_battle_stats = arr => arr ? arr.map(capitalise).join('/') : "nil"  // display battle stats else display nil
+
+const format_type_advantage = (obj) => { 
+    let str = ""
+    let zeroStr = ""
+    Object.keys(obj).map(item => {
+        if (obj[item]===0){
+            zeroStr += `${capitalise(item)}/`
+        } else if (obj[item]!==1) {
+            str += `${capitalise(item)}(${obj[item]}x)/`
+        }
+    })
+    return [str.substring(0, str.length-1), zeroStr.substring(0, zeroStr.length-1)]
+}
+
+const format_weak_types = (pokemon_types) => {
+    let types_object = {}
+    for (const type of pokemon_types) {
+        let defense_object = types[type]["defense"]
+        Object.keys(defense_object).map(type_item => {
+            if (type_item in types_object) {
+                types_object[type_item] *= defense_object[type_item]
+            } else {
+                types_object[type_item] = defense_object[type_item]
+            }
+        })
+    }
+
+    const result = format_type_advantage(types_object)
+    const weak_types = result[0]
+    const immune_types = result[1]
+    if (immune_types==="") {
+        return `Weak Against: ${weak_types}`
+    } else {
+        return `Weak Against: ${weak_types}
+Immune to: ${immune_types}`
+    }
+}   
 
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
 Type: ${format_type(pokemon)}
-Strong Against: ${format_battle_stats(types[pokemon.type]["strong"])}
-Weak Against: ${format_battle_stats(types[pokemon.type]["weak"])}
-Resistant towards: ${format_battle_stats(types[pokemon.type]["resistant"])}
-No effect on: ${format_battle_stats(types[pokemon.type]["no effect"])}
+${format_weak_types(pokemon.type)}
 Abilities: ${pokemon.abilities.join(', ')}
 Height: ${format_height(pokemon.height)}
 Weight: ${pokemon.weight} lbs
