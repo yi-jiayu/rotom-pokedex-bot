@@ -12,7 +12,7 @@
   "water": {
     "offense": ["fire", "ground", "rock"],
     "noEffect": [],
-    "defense": {"grass": 2, "electric": 2, "steel": 0.5, "fire": 0.5, "water": 2, "ice": 0.5}
+    "defense": {"grass": 2, "electric": 2, "steel": 0.5, "fire": 0.5, "water": 0.5, "ice": 0.5}
   },
   "electric": {
     "offense": ["water", "flying"],
