@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const pokemon = require('./pokemon.min.json');
+const pokemon = require("./pokemon.min.json");
 
 // check if id_or_name matches a pokemon's id or name
 const match = (pokemon, id_or_name) => pokemon.id == id_or_name || pokemon.slug.includes(id_or_name.toLowerCase());
@@ -16,31 +16,32 @@ function* find_pokemon(id_or_name) {
 }
 
 const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);        // capitalise a word
-const format_type = pokemon => pokemon.type.map(capitalise).join('/');          // join multiple types into one word
+const format_type = pokemon => pokemon.type.map(capitalise).join("/");          // join multiple types into one word
 const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
 
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
 Type: ${format_type(pokemon)}
-Abilities: ${pokemon.abilities.join(', ')}
+Abilities: ${pokemon.abilities.join(", ")}
 Height: ${format_height(pokemon.height)}
 Weight: ${pokemon.weight} lbs
-[Image](${pokemon.ThumbnailImage.replace('detail', 'full')})`; // higher res image
+[Image](${pokemon.ThumbnailImage.replace("detail", "full")})`; // higher res image
 
 // incoming webhook handler
 exports.handler = function (req, res) {
     const update = req.body;
-    console.log(JSON.stringify(update)); // log incoming updates for debugging
+    // log to console for debugging
+    console.log(JSON.stringify(update)); // eslint-disable-line no-console
 
     // update is a text message
-    if (update.hasOwnProperty('message') && update.message.hasOwnProperty('text')) {
+    if (update.hasOwnProperty("message") && update.message.hasOwnProperty("text")) {
         const message = update.message;
-        const id_or_name = message.text.split(' ', 1)[0].substring(0, 20);
+        const id_or_name = message.text.split(" ", 1)[0].substring(0, 20);
         const pokemon = get_pokemon(id_or_name);
 
         // reply with the sendMessage method
         const reply = {
-            method: 'sendMessage',
+            method: "sendMessage",
             chat_id: message.chat.id,
         };
 
@@ -48,13 +49,13 @@ exports.handler = function (req, res) {
             reply.text = "Couldn't find a matching Pokémon!";
         } else {
             reply.text = format_text(pokemon);
-            reply.parse_mode = 'Markdown';
+            reply.parse_mode = "Markdown";
         }
 
         return res.json(reply);
-    } else if (update.hasOwnProperty('inline_query')) { // update is an inline query
+    } else if (update.hasOwnProperty("inline_query")) { // update is an inline query
         const inline_query = update.inline_query;
-        const id_or_name = inline_query.query.split(' ', 1)[0].substring(0, 20);
+        const id_or_name = inline_query.query.split(" ", 1)[0].substring(0, 20);
 
         // populate an array of inline query results
         const results = [];
@@ -63,12 +64,12 @@ exports.handler = function (req, res) {
             if (results.find(r => r.id === p.id)) continue;
 
             const result = {
-                type: 'article',
+                type: "article",
                 id: p.id,
                 title: `${p.name} (#${p.number})`,
                 input_message_content: {
                     message_text: format_text(p),
-                    parse_mode: 'Markdown',
+                    parse_mode: "Markdown",
                 },
                 description: format_type(p),
                 thumb_url: p.ThumbnailImage,
@@ -85,7 +86,7 @@ exports.handler = function (req, res) {
 
         // reply with the answerInlineQueryMethod
         const reply = {
-            method: 'answerInlineQuery',
+            method: "answerInlineQuery",
             inline_query_id: inline_query.id,
             results: JSON.stringify(results),
         };

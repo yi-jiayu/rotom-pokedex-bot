@@ -1,4 +1,4 @@
-const bot = require('./index.js');
+const bot = require("./index.js");
 
 function newMessage(text) {
     return {
@@ -8,7 +8,7 @@ function newMessage(text) {
             },
             text,
         }
-    }
+    };
 }
 
 function newInlineQuery(query) {
@@ -17,13 +17,13 @@ function newInlineQuery(query) {
             id: 1,
             query,
         }
-    }
+    };
 }
 
-describe('when messaged directly', () => {
-    test('with full pokemon name', () => {
+describe("when messaged directly", () => {
+    test("with full pokemon name", () => {
         const json = jest.fn();
-        bot.handler({body: newMessage('turtwig')}, {json});
+        bot.handler({body: newMessage("turtwig")}, {json});
         expect(json.mock.calls[0][0]).toEqual({
             "chat_id": 1,
             "method": "sendMessage",
@@ -37,9 +37,9 @@ Weight: 22.5 lbs
         });
     });
 
-    test('with partial pokemon name', () => {
+    test("with partial pokemon name", () => {
         const json = jest.fn();
-        bot.handler({body: newMessage('turt')}, {json});
+        bot.handler({body: newMessage("turt")}, {json});
         expect(json.mock.calls[0][0]).toEqual({
             "chat_id": 1,
             "method": "sendMessage",
@@ -53,24 +53,24 @@ Weight: 22.5 lbs
         });
     });
 
-    test('with nonexistent pokemon name', () => {
+    test("with nonexistent pokemon name", () => {
         const json = jest.fn();
-        bot.handler({body: newMessage('digimon')}, {json});
+        bot.handler({body: newMessage("digimon")}, {json});
         expect(json.mock.calls[0][0]).toEqual({
             "chat_id": 1,
             "method": "sendMessage",
             "text": "Couldn't find a matching Pokémon!"
         });
-    })
+    });
 });
 
-describe('when sent an inline query', function () {
-    test('with full pokemon name', () => {
+describe("when sent an inline query", function () {
+    test("with full pokemon name", () => {
         const json = jest.fn();
-        bot.handler({body: newInlineQuery('turtwig')}, {json});
+        bot.handler({body: newInlineQuery("turtwig")}, {json});
         const reply = json.mock.calls[0][0];
         expect(reply.inline_query_id).toEqual(1);
-        expect(reply.method).toEqual('answerInlineQuery');
+        expect(reply.method).toEqual("answerInlineQuery");
         expect(JSON.parse(reply.results)).toEqual([
             {
                 "description": "Grass",
@@ -86,12 +86,12 @@ describe('when sent an inline query', function () {
         ]);
     });
 
-    test('with partial pokemon name', () => {
+    test("with partial pokemon name", () => {
         const json = jest.fn();
-        bot.handler({body: newInlineQuery('turt')}, {json});
+        bot.handler({body: newInlineQuery("turt")}, {json});
         const reply = json.mock.calls[0][0];
         expect(reply.inline_query_id).toEqual(1);
-        expect(reply.method).toEqual('answerInlineQuery');
+        expect(reply.method).toEqual("answerInlineQuery");
         expect(JSON.parse(reply.results)).toEqual([
             {
                 "description": "Grass",
@@ -118,9 +118,9 @@ describe('when sent an inline query', function () {
         ]);
     });
 
-    test('with nonexistent pokemon name', () => {
+    test("with nonexistent pokemon name", () => {
         const sendStatus = jest.fn();
-        bot.handler({body: newInlineQuery('digimon')}, {sendStatus});
+        bot.handler({body: newInlineQuery("digimon")}, {sendStatus});
         expect(sendStatus.mock.calls[0][0]).toEqual(200);
     });
 });
