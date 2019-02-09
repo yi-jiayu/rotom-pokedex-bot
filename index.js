@@ -1,7 +1,7 @@
 "use strict";
 
-const pokemon = require('./pokemon.min.json');
-const types = require('./typeStatistics.json');
+const pokemon = require("./pokemon.min.json");
+const types = require("./typeStatistics.json");
 
 // check if id_or_name matches a pokemon's id or name
 const match = (pokemon, id_or_name) => pokemon.id == id_or_name || pokemon.slug.includes(id_or_name.toLowerCase());
@@ -21,57 +21,57 @@ const format_type = pokemon => pokemon.type.map(capitalise).join("/");          
 const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
 
 const sort_object_by_value = (obj) => {
-    return Object
-            .keys(obj)
-            .sort((a, b) => obj[b]-obj[a])
-            .reduce((_sortedObj, key) => ({
-            ..._sortedObj, 
-            [key]: obj[key]
-            }), {})
-}
+    let sorted_obj = {};
+    Object
+        .keys(obj)
+        .sort((a, b) => obj[b]-obj[a])
+        .map(key => sorted_obj[key] = obj[key]);
+    return sorted_obj;
+};
+
 const format_type_advantage = (obj) => { 
-    let str = ""
-    let zeroStr = ""
-    const sorted_obj = sort_object_by_value(obj)
+    let str = "";
+    let zeroStr = "";
+    const sorted_obj = sort_object_by_value(obj);
     Object.keys(sorted_obj).map(item => {
         if (sorted_obj[item]===0){
-            zeroStr += `${capitalise(item)}/`
+            zeroStr += `${capitalise(item)}/`;
         } else if (sorted_obj[item]!==1) {
-            str += `${capitalise(item)}(${sorted_obj[item]}x)/`
+            str += `${capitalise(item)}(${sorted_obj[item]}x)/`;
         }
-    })
-    return [str.substring(0, str.length-1), zeroStr.substring(0, zeroStr.length-1)]
-}
+    });
+    return [str.substring(0, str.length-1), zeroStr.substring(0, zeroStr.length-1)];
+};
 
 const format_weak_types = (pokemon_types) => {
-    let types_object = {}
+    let types_object = {};
     for (const type of pokemon_types) {
-        let defense_object = types[type]["defense"]
+        let defense_object = types[type]["defense"];
         Object.keys(defense_object).map(type_item => {
             if (type_item in types_object) {
-                types_object[type_item] *= defense_object[type_item]
+                types_object[type_item] *= defense_object[type_item];
             } else {
-                types_object[type_item] = defense_object[type_item]
+                types_object[type_item] = defense_object[type_item];
             }
-        })
+        });
     }
 
-    const result = format_type_advantage(types_object)
-    const weak_types = result[0]
-    const immune_types = result[1]
+    const result = format_type_advantage(types_object);
+    const weak_types = result[0];
+    const immune_types = result[1];
     if (immune_types==="") {
-        return `Weak Against: ${weak_types}`
+        return `Weak Against: ${weak_types}`;
     } else {
         return `Weak Against: ${weak_types}
-Immune to: ${immune_types}`
+Immune to: ${immune_types}`;
     }
-}   
+};
 
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
 Type: ${format_type(pokemon)}
 ${format_weak_types(pokemon.type)}
-Abilities: ${pokemon.abilities.join(', ')}
+Abilities: ${pokemon.abilities.join(", ")}
 Height: ${format_height(pokemon.height)}
 Weight: ${pokemon.weight} lbs
 [Image](${pokemon.ThumbnailImage.replace("detail", "full")})`; // higher res image

@@ -63,11 +63,11 @@ Weight: 22.5 lbs
             "method": "sendMessage",
             "text": "Couldn't find a matching Pokémon!"
         });
-    })
+    });
 
-    test('weakness and immunity', () => {
+    test("weakness and immunity", () => {
         const json = jest.fn();
-        bot.handler({body: newMessage('whiscash')}, {json});
+        bot.handler({body: newMessage("whiscash")}, {json});
         expect(json.mock.calls[0][0]).toEqual({
             "chat_id": 1,
             "method": "sendMessage",
@@ -83,9 +83,9 @@ Weight: 52 lbs
         });
     });
 
-    test('weakness and immunity 2', () => {
+    test("weakness and immunity 2", () => {
         const json = jest.fn();
-        bot.handler({body: newMessage('froslass')}, {json});
+        bot.handler({body: newMessage("froslass")}, {json});
         expect(json.mock.calls[0][0]).toEqual({
             "chat_id": 1,
             "method": "sendMessage",
