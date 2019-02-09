@@ -1,6 +1,7 @@
 "use strict";
 
 const pokemon = require("./pokemon.min.json");
+const types = require("./typeStatistics.json");
 
 // check if id_or_name matches a pokemon's id or name
 const match = (pokemon, id_or_name) => pokemon.id == id_or_name || pokemon.slug.includes(id_or_name.toLowerCase());
@@ -19,9 +20,61 @@ const capitalise = word => word.charAt(0).toUpperCase() + word.slice(1);        
 const format_type = pokemon => pokemon.type.map(capitalise).join("/");          // join multiple types into one word
 const format_height = height => `${Math.floor(height / 12)}' ${height % 12}"`;  // display height in feet and inches
 
+const sort_object_by_value = (obj) => {
+    let sorted_obj = {};
+    Object
+        .keys(obj)
+        .sort((a, b) => {
+            if (obj[b] - obj[a] === 0) {
+                return a < b ? -1 : a > b ? 1 : 0;
+            }
+            return obj[b] - obj[a];
+        })
+        .map(key => sorted_obj[key] = obj[key]);
+    return sorted_obj;
+};
+
+const format_type_advantage = (obj) => { 
+    let str = "";
+    let immune_str = "";
+    let resistant_str = "";
+    const sorted_obj = sort_object_by_value(obj);
+    Object.keys(sorted_obj).map(item => {
+        if (sorted_obj[item] === 0){
+            immune_str += `${capitalise(item)} (${sorted_obj[item]}x), `;
+        } else if (sorted_obj[item] < 1) { 
+            resistant_str += `${capitalise(item)} (${sorted_obj[item]}x), `;
+        } else if (sorted_obj[item] !== 1) {
+            str += `${capitalise(item)} (${sorted_obj[item]}x), `;
+        }
+    });
+    return [str.substring(0, str.length-2), resistant_str.substring(0, resistant_str.length-2), immune_str.substring(0, immune_str.length-2)];
+};
+
+const format_weak_types = (pokemon_types) => {
+    let types_object = {};
+    for (const type of pokemon_types) {
+        let defense_object = types[type]["defense"];
+        Object.keys(defense_object).map(type_item => {
+            if (type_item in types_object) {
+                types_object[type_item] *= defense_object[type_item];
+            } else {
+                types_object[type_item] = defense_object[type_item];
+            }
+        });
+    }
+
+    const result = format_type_advantage(types_object);
+    let formated_string = `Weak against: ${result[0]}`;
+    formated_string += result[1] !== "" ? `\nResistant to: ${result[1]}` : "";
+    formated_string += result[2] !== "" ? `\nImmune to: ${result[2]}` : "";
+    return formated_string;
+};
+
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
 Type: ${format_type(pokemon)}
+${format_weak_types(pokemon.type)}
 Abilities: ${pokemon.abilities.join(", ")}
 Height: ${format_height(pokemon.height)}
 Weight: ${pokemon.weight} lbs
