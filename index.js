@@ -24,8 +24,12 @@ const sort_object_by_value = (obj) => {
     let sorted_obj = {};
     Object
         .keys(obj)
-        .sort()
-        .sort((a, b) => obj[b]-obj[a])
+        .sort((a, b) => {
+            if (obj[b] - obj[a] === 0) {
+                return a < b ? -1 : a > b ? 1 : 0;
+            }
+            return obj[b] - obj[a];
+        })
         .map(key => sorted_obj[key] = obj[key]);
     return sorted_obj;
 };
@@ -68,7 +72,6 @@ Immune to: ${immune_types}`;
     }
 };
 
-// console.log(format_weak_types(['fire','dragon']))
 // format pokemon data as a text string to use in a message
 const format_text = pokemon => `*${pokemon.name} (#${pokemon.number})*
 Type: ${format_type(pokemon)}
