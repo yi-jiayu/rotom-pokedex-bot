@@ -65,26 +65,10 @@ const format_weak_types = (pokemon_types) => {
     }
 
     const result = format_type_advantage(types_object);
-    const weak_types = result[0];
-    const resistant_types = result[1];
-    const immune_types = result[2];
-    if (immune_types === "") {
-        if (resistant_types === "") {
-            return `Weak against: ${weak_types}`;
-        } else {
-            return `Weak against: ${weak_types}
-Resistant to: ${resistant_types}`;
-        }
-    } else {
-        if (resistant_types === "") {
-            return `Weak against: ${weak_types}
-Immune to: ${immune_types}`;
-        } else {
-            return `Weak against: ${weak_types}
-Resistant to: ${resistant_types}
-Immune to: ${immune_types}`;
-        }
-    }
+    let formated_string = `Weak against: ${result[0]}`;
+    formated_string += result[1] !== "" ? `\nResistant to: ${result[1]}` : "";
+    formated_string += result[2] !== "" ? `\nImmune to: ${result[2]}` : "";
+    return formated_string;
 };
 
 // format pokemon data as a text string to use in a message
