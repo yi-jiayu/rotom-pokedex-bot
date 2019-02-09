@@ -30,7 +30,8 @@ describe("when messaged directly", () => {
             "parse_mode": "Markdown",
             "text": `*Turtwig (#387)*
 Type: Grass
-Weak Against: Bug(2x)/Fire(2x)/Flying(2x)/Ice(2x)/Poison(2x)/Electric(0.5x)/Grass(0.5x)/Ground(0.5x)/Water(0.5x)
+Weak against: Bug (2x), Fire (2x), Flying (2x), Ice (2x), Poison (2x)
+Resistant to: Electric (0.5x), Grass (0.5x), Ground (0.5x), Water (0.5x)
 Abilities: Overgrow
 Height: 1' 4"
 Weight: 22.5 lbs
@@ -47,7 +48,8 @@ Weight: 22.5 lbs
             "parse_mode": "Markdown",
             "text": `*Turtwig (#387)*
 Type: Grass
-Weak Against: Bug(2x)/Fire(2x)/Flying(2x)/Ice(2x)/Poison(2x)/Electric(0.5x)/Grass(0.5x)/Ground(0.5x)/Water(0.5x)
+Weak against: Bug (2x), Fire (2x), Flying (2x), Ice (2x), Poison (2x)
+Resistant to: Electric (0.5x), Grass (0.5x), Ground (0.5x), Water (0.5x)
 Abilities: Overgrow
 Height: 1' 4"
 Weight: 22.5 lbs
@@ -74,8 +76,9 @@ Weight: 22.5 lbs
             "parse_mode": "Markdown",
             "text": `*Whiscash (#340)*
 Type: Water/Ground
-Weak Against: Grass(4x)/Fire(0.5x)/Poison(0.5x)/Rock(0.5x)/Steel(0.5x)
-Immune to: Electric
+Weak against: Grass (4x)
+Resistant to: Fire (0.5x), Poison (0.5x), Rock (0.5x), Steel (0.5x)
+Immune to: Electric (0x)
 Abilities: Anticipation, Oblivious
 Height: 2' 11"
 Weight: 52 lbs
@@ -92,8 +95,9 @@ Weight: 52 lbs
             "parse_mode": "Markdown",
             "text": `*Froslass (#478)*
 Type: Ice/Ghost
-Weak Against: Dark(2x)/Fire(2x)/Ghost(2x)/Rock(2x)/Steel(2x)/Bug(0.5x)/Ice(0.5x)/Poison(0.5x)
-Immune to: Fighting/Normal
+Weak against: Dark (2x), Fire (2x), Ghost (2x), Rock (2x), Steel (2x)
+Resistant to: Bug (0.5x), Ice (0.5x), Poison (0.5x)
+Immune to: Fighting (0x), Normal (0x)
 Abilities: Snow Cloak
 Height: 4' 3"
 Weight: 58.6 lbs
@@ -114,7 +118,7 @@ describe("when sent an inline query", function () {
                 "description": "Grass",
                 "id": 387,
                 "input_message_content": {
-                    "message_text": "*Turtwig (#387)*\nType: Grass\nWeak Against: Bug(2x)/Fire(2x)/Flying(2x)/Ice(2x)/Poison(2x)/Electric(0.5x)/Grass(0.5x)/Ground(0.5x)/Water(0.5x)\nAbilities: Overgrow\nHeight: 1' 4\"\nWeight: 22.5 lbs\n[Image](https://assets.pokemon.com/assets/cms2/img/pokedex/full/387.png)",
+                    "message_text": "*Turtwig (#387)*\nType: Grass\nWeak against: Bug (2x), Fire (2x), Flying (2x), Ice (2x), Poison (2x)\nResistant to: Electric (0.5x), Grass (0.5x), Ground (0.5x), Water (0.5x)\nAbilities: Overgrow\nHeight: 1' 4\"\nWeight: 22.5 lbs\n[Image](https://assets.pokemon.com/assets/cms2/img/pokedex/full/387.png)",
                     "parse_mode": "Markdown"
                 },
                 "thumb_url": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/387.png",
@@ -135,7 +139,7 @@ describe("when sent an inline query", function () {
                 "description": "Grass",
                 "id": 387,
                 "input_message_content": {
-                    "message_text": "*Turtwig (#387)*\nType: Grass\nWeak Against: Bug(2x)/Fire(2x)/Flying(2x)/Ice(2x)/Poison(2x)/Electric(0.5x)/Grass(0.5x)/Ground(0.5x)/Water(0.5x)\nAbilities: Overgrow\nHeight: 1' 4\"\nWeight: 22.5 lbs\n[Image](https://assets.pokemon.com/assets/cms2/img/pokedex/full/387.png)",
+                    "message_text": "*Turtwig (#387)*\nType: Grass\nWeak against: Bug (2x), Fire (2x), Flying (2x), Ice (2x), Poison (2x)\nResistant to: Electric (0.5x), Grass (0.5x), Ground (0.5x), Water (0.5x)\nAbilities: Overgrow\nHeight: 1' 4\"\nWeight: 22.5 lbs\n[Image](https://assets.pokemon.com/assets/cms2/img/pokedex/full/387.png)",
                     "parse_mode": "Markdown"
                 },
                 "thumb_url": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/387.png",
@@ -146,7 +150,7 @@ describe("when sent an inline query", function () {
                 "description": "Fire/Dragon",
                 "id": 776,
                 "input_message_content": {
-                    "message_text": "*Turtonator (#776)*\nType: Fire/Dragon\nWeak Against: Dragon(2x)/Ground(2x)/Rock(2x)/Bug(0.5x)/Electric(0.5x)/Steel(0.5x)/Fire(0.25x)/Grass(0.25x)\nAbilities: Shell Armor\nHeight: 6' 7\"\nWeight: 467.4 lbs\n[Image](https://assets.pokemon.com/assets/cms2/img/pokedex/full/776.png)",
+                    "message_text": "*Turtonator (#776)*\nType: Fire/Dragon\nWeak against: Dragon (2x), Ground (2x), Rock (2x)\nResistant to: Bug (0.5x), Electric (0.5x), Steel (0.5x), Fire (0.25x), Grass (0.25x)\nAbilities: Shell Armor\nHeight: 6' 7\"\nWeight: 467.4 lbs\n[Image](https://assets.pokemon.com/assets/cms2/img/pokedex/full/776.png)",
                     "parse_mode": "Markdown"
                 },
                 "thumb_url": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/776.png",

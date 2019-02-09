@@ -36,16 +36,19 @@ const sort_object_by_value = (obj) => {
 
 const format_type_advantage = (obj) => { 
     let str = "";
-    let zeroStr = "";
+    let immune_str = "";
+    let resistant_str = "";
     const sorted_obj = sort_object_by_value(obj);
     Object.keys(sorted_obj).map(item => {
-        if (sorted_obj[item]===0){
-            zeroStr += `${capitalise(item)}/`;
-        } else if (sorted_obj[item]!==1) {
-            str += `${capitalise(item)}(${sorted_obj[item]}x)/`;
+        if (sorted_obj[item] === 0){
+            immune_str += `${capitalise(item)} (${sorted_obj[item]}x), `;
+        } else if (sorted_obj[item] < 1) { 
+            resistant_str += `${capitalise(item)} (${sorted_obj[item]}x), `;
+        } else if (sorted_obj[item] !== 1) {
+            str += `${capitalise(item)} (${sorted_obj[item]}x), `;
         }
     });
-    return [str.substring(0, str.length-1), zeroStr.substring(0, zeroStr.length-1)];
+    return [str.substring(0, str.length-2), resistant_str.substring(0, resistant_str.length-2), immune_str.substring(0, immune_str.length-2)];
 };
 
 const format_weak_types = (pokemon_types) => {
@@ -63,12 +66,24 @@ const format_weak_types = (pokemon_types) => {
 
     const result = format_type_advantage(types_object);
     const weak_types = result[0];
-    const immune_types = result[1];
-    if (immune_types==="") {
-        return `Weak Against: ${weak_types}`;
+    const resistant_types = result[1];
+    const immune_types = result[2];
+    if (immune_types === "") {
+        if (resistant_types === "") {
+            return `Weak against: ${weak_types}`;
+        } else {
+            return `Weak against: ${weak_types}
+Resistant to: ${resistant_types}`;
+        }
     } else {
-        return `Weak Against: ${weak_types}
+        if (resistant_types === "") {
+            return `Weak against: ${weak_types}
 Immune to: ${immune_types}`;
+        } else {
+            return `Weak against: ${weak_types}
+Resistant to: ${resistant_types}
+Immune to: ${immune_types}`;
+        }
     }
 };
 
