@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/node:8
     steps:
@@ -18,3 +18,28 @@ jobs:
       - run: yarn test
       - run: yarn coverage
       - run: bash <(curl -s https://codecov.io/bash)
+  deploy:
+    docker:
+      - image: google/cloud-sdk:231.0.0
+    steps:
+      - run:
+          name: Authorize the Google Cloud SDK
+          command: |
+            echo $CIRCLECI_SERVICE_ACCOUNT_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project rotom-pokedex-bot
+      - checkout
+      - run:
+          name: Deploy
+          command: gcloud functions deploy prod --entry-point handler --runtime=nodejs8 --source . --stage-bucket=rotom-pokedex-bot-functions --trigger-http
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - approve-deploy:
+          type: approval
+          requires:
+            - test
+      - deploy:
+          requires:
+            - approve-deploy
