@@ -31,7 +31,7 @@ Weight: ${pokemon.weight} lbs
 exports.handler = function (req, res) {
     const update = req.body;
     // log to console for debugging
-    console.log(JSON.stringify(update)); // eslint-disable-line no-console
+    if (process.env.DEBUG) console.log(JSON.stringify(update)); // eslint-disable-line no-console
 
     // update is a text message
     if (update.hasOwnProperty("message") && update.message.hasOwnProperty("text")) {
